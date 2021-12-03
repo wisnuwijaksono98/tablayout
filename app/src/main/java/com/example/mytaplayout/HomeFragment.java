@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -24,41 +25,26 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
     private final ArrayList<Model> arrayList = new ArrayList<>();
     RecyclerView rvHeroes;
-
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(int index) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
-
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null){
-            getArguments().getInt(ARG_SECTION_NUMBER);
-            dataLoad();
-        }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataLoad();
     }
 
     private void dataLoad() {
 
         AndroidNetworking.get("https://api.github.com/users/mojombo/followers")
-                .addHeaders("Authorization", "token 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")
+                .addHeaders("Authorization", "token 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")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -71,7 +57,7 @@ public class HomeFragment extends Fragment {
                                 String user = jsonObject.getString("login");
                                 String type = jsonObject.getString("type");
                                 String avatarUrl = jsonObject.getString("avatar_url");
-                                Log.e("anjing", "data ---   " + user);
+
                                 arrayList.add(new Model(
                                         user,
                                         type,
@@ -104,4 +90,6 @@ public class HomeFragment extends Fragment {
         rvHeroes.setLayoutManager(linearLayoutManager);
         rvHeroes.setAdapter(list);
     }
+
+
 }

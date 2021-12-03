@@ -15,11 +15,21 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return HomeFragment.newInstance(position + 1);
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new HomeFragment();
+                break;
+
+            case 1:
+                fragment = new ProfileFragment();
+                break;
+        }
+        return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 }
